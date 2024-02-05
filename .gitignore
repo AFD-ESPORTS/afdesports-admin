@@ -22,3 +22,7 @@ logs
 .env
 .env.*
 !.env.template
+
+# OLD and SAVE files
+*.OLD
+*.SAVE

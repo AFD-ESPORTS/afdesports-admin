@@ -1,0 +1,17 @@
+{
+  "post": {
+    "body": {
+      "userId": {
+        "type": "number",
+        "required": true
+      },
+      "roles": {
+        "type": "array",
+        "required": true,
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
