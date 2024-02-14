@@ -2,27 +2,31 @@ import {
   checkSchema,
   validationResult,
   ValidationChain,
+  Schema,
 } from "express-validator";
+import { CustomError } from "./errorHandler";
 import { Request, Response, NextFunction } from "express";
 
-export function validateSchema(schema: any) {
-  return (req: Request, res: Response, next: NextFunction) => {
-    // Valide la requête avec le schéma
-    const validationChains: ValidationChain[] = checkSchema(schema);
+const handleValidationErrors = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log("Validation errors:", errors.array());
+    const errorMessage = new CustomError(
+      400,
+      errors.array().map((error) => error.msg),
+      { req, res, next }
+    );
+    next(errorMessage);
+  }
+  next();
+};
 
-    for (const validationChain of validationChains) {
-      validationChain(req, res, (err) => {
-        if (err) {
-          return res.status(400).json({ errors: err.array() });
-        }
-      });
-    }
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    next();
-  };
-}
+export const validateSchema = (
+  schema: Schema
+): (any | ValidationChain | typeof handleValidationErrors)[] => {
+  return [...checkSchema(schema), handleValidationErrors];
+};

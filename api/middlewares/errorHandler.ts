@@ -28,13 +28,13 @@ export class CustomError extends Error {
   }
 }
 
-export default function errorHandler(err: any, reqPackage: Package) {
+export function errorHandler(err: any, reqPackage: Package) {
   console.log("Error handler called");
 
   const { req, res, next } = reqPackage;
   if (err instanceof CustomError) {
     console.log("Error handler context:", err?.context);
-    console.log(res.sentry);
+    // console.log(res.sentry);
     if (err.code) {
       Sentry.captureException(new Error(err?.context?.join(" ")));
       res.status(err.code).json({
@@ -48,6 +48,7 @@ export default function errorHandler(err: any, reqPackage: Package) {
       next();
     }
   } else {
+    console.log("Unhandled error:");
     console.error(err.stack);
     res.status(500).json({
       message:
@@ -55,19 +56,4 @@ export default function errorHandler(err: any, reqPackage: Package) {
       errorStack: err.stack,
     });
   }
-
-  // return (err: any, req: Request, res: ExpressResponse, next: NextFunction) => {
-  //   console.log("Error:", err);
-  //   console.log("req:", req);
-  //   console.log("res:", res);
-
-  //   if (err) {
-  //     res.status(code).json({
-  //       message: err.message,
-  //       ...context,
-  //     });
-  //   } else {
-  //     next();
-  //   }
-  // };
 }
