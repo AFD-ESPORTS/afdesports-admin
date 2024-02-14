@@ -1,0 +1,79 @@
+# Use postgres/example user/password credentials
+version: "3.1"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    container_name: "postgres"
+    ports:
+      - 3232:5432
+    networks:
+      - internalNetwork
+    environment:
+      POSTGRES_PASSWORD: "De cette vérité deux fables feront foi,"
+
+  adminer:
+    image: adminer
+    restart: always
+    container_name: "postgres-adminer"
+    ports:
+      - 3233:8080
+    networks:
+      - internalNetwork
+
+  prometheus:
+    image: prom/prometheus
+    restart: always
+    container_name: "prometheus"
+    ports:
+      - 3235:9090
+    networks:
+      - internalNetwork
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    depends_on:
+      - db
+
+  node-exporter:
+    image: prom/node-exporter
+    restart: always
+    container_name: "node-exporter"
+    ports:
+      - 9100:9100
+    networks:
+      - internalNetwork
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+
+  grafana:
+    image: grafana/grafana
+    restart: unless-stopped
+    container_name: "grafana"
+    user: ${UID}
+    ports:
+      - 3234:3000
+    networks:
+      - internalNetwork
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+      GF_INSTALL_PLUGINS: grafana-clock-panel
+      GF_PATHS_PROVISIONING: /var/lib/grafana/provisioning
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/dashboard.json
+    volumes:
+      - ./grafana:/var/lib/grafana
+    depends_on:
+      - prometheus
+
+# volumes:
+#   grafana-storage: {}
+#   prometheus-data: {}
+
+networks:
+  internalNetwork:
+    driver: bridge
