@@ -5,7 +5,9 @@
   "scripts": {
     "build": "nuxt build",
     "start:front": "nuxt dev",
-    "start:api": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules api/server.ts",
+    "start:api": "ts-node-dev ./api/server.ts --watch api/*.d.ts",
+    "deploy:up": "cd deployment && docker-compose up",
+    "deploy:down": "cd deployment && docker-compose down",
     "dev": "concurrently \"npm run start:front\" \"npm run start:api\"",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
