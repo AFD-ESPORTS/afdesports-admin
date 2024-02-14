@@ -1,0 +1,4 @@
+{
+  "envEnabled": ["development", "pre-production", "production"],
+  "requireAuth": false
+}

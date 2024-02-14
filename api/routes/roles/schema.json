@@ -1,0 +1,16 @@
+{
+  "userId": {
+    "in": ["body"],
+    "isInt": true,
+    "errorMessage": "userId must be an integer"
+  },
+  "roles": {
+    "in": ["body"],
+    "isArray": true,
+    "errorMessage": "Roles must be an array"
+  },
+  "roles.*": {
+    "isString": true,
+    "errorMessage": "Each role must be a string"
+  }
+}

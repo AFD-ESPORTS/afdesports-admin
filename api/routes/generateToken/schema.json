@@ -1,1 +1,16 @@
-{}
+{
+  "userId": {
+    "in": ["body"],
+    "isInt": true,
+    "errorMessage": "userId must be an integer"
+  },
+  "type": {
+    "in": ["body"],
+    "isString": true,
+    "isIn": {
+      "options": ["magic-token", "user-token", "api-token"],
+      "errorMessage": "This type is not supported"
+    },
+    "errorMessage": "Type must be a string"
+  }
+}

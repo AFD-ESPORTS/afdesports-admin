@@ -1,0 +1,12 @@
+{
+  "userId": {
+    "in": ["body"],
+    "isInt": true,
+    "errorMessage": "userId must be an integer"
+  },
+  "source": {
+    "in": ["body"],
+    "isURL": true,
+    "errorMessage": "source must be an URL"
+  }
+}

@@ -1,7 +1,8 @@
-import { Router } from "express";
+import { Request, Response, NextFunction } from "express";
+import generateToken from "./generateToken.ctrl";
 
-export default function (router: Router): void {
-  router.get("/", (req, res) => {
-    res.send("Generating Token");
-  });
-}
+export default async (req: Request, res: Response, next: NextFunction) => {
+  console.log("Corps de la requête :", req.body);
+  res.locals.data = await generateToken(req.body);
+  next();
+};
