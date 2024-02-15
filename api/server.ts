@@ -87,7 +87,17 @@ for (const folder of routeFolders) {
       const router: Router = express.Router();
       router.use(validateSchema(schema));
       router.use(route.default);
-      config?.requireAuth === false || router.use(tokenHandler); // If requireAuth is not set, it will require auth by default
+      router.use((req, res, next) => {
+        if (
+          config?.requireAuth === undefined ||
+          config?.requireAuth === true ||
+          (Array.isArray(config?.requireAuth) &&
+            config?.requireAuth.includes(req.method))
+        ) {
+          return tokenHandler(req, res, next);
+        }
+        next();
+      });
       app.use(`/${folder}`, router);
 
       availableRoutes.push({
@@ -109,14 +119,14 @@ for (const folder of routeFolders) {
 app.use((req, res, next) => {
   if (_.find(availableRoutes, { routeName: req.url.split("/")[1] })) {
     next();
+  } else {
+    const error = new CustomError(404, ["No route found for", req.url], {
+      req,
+      res,
+      next,
+    });
+    next(error);
   }
-  console.log("No route found for", req.url);
-  const error = new CustomError(404, ["No route found for", req.url], {
-    req,
-    res,
-    next,
-  });
-  next(error);
 });
 
 // Returning the result through formating middleware
