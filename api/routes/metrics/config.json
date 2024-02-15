@@ -1,3 +1,4 @@
 {
-  "envEnabled": ["development", "prod"]
+  "envEnabled": ["development", "prod"],
+  "requireAuth": false
 }

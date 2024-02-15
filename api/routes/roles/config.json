@@ -1,4 +1,4 @@
 {
   "envEnabled": ["development", "production"],
-  "requireAuth": false
+  "requireAuth": true
 }
