@@ -10,7 +10,7 @@ dist
 node_modules
 
 # Deployment
-deployment/grafana/grafana.db
+**grafana.db
 
 # Logs
 logs
