@@ -1,0 +1,4 @@
+{
+  "envEnabled": ["development"],
+  "requireAuth": ["POST", "PUT", "DELETE"]
+}
