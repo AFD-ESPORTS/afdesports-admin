@@ -31,7 +31,6 @@ export class CustomError extends Error {
 export function errorHandler(err: any, reqPackage: Package) {
   const { req, res, next } = reqPackage;
   if (err instanceof CustomError) {
-    console.log("Error handler context:", err?.context);
     if (err.code) {
       Sentry.captureException(new Error(err?.context?.join(" ")));
       res.status(err.code).json({
@@ -45,6 +44,7 @@ export function errorHandler(err: any, reqPackage: Package) {
       next();
     }
   } else {
+    console.log("Unhandled error:");
     res.status(500).json({
       message:
         "An unknown error occured. Please try again later or contact administrator.",
