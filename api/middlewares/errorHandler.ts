@@ -28,7 +28,7 @@ export class CustomError extends Error {
   }
 }
 
-export function errorHandler(err: any, reqPackage: Package) {
+export const errorHandler = (err: any, reqPackage: Package) => {
   const { req, res, next } = reqPackage;
   if (err instanceof CustomError) {
     if (err.code) {
@@ -51,4 +51,4 @@ export function errorHandler(err: any, reqPackage: Package) {
       errorStack: err.stack,
     });
   }
-}
+};
