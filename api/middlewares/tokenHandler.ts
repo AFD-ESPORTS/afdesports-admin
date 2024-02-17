@@ -1,31 +1,26 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import { CustomError } from "./errorHandler";
+import { ExtendedRequest } from "../types/customTypes";
 
-interface RequestWithUser extends Request {
-  userId?: string;
-}
-
-export function tokenHandler(
-  req: RequestWithUser,
+export const tokenHandler = (
+  req: ExtendedRequest,
   res: Response,
   next: NextFunction
-) {
-  const token = req.headers["authorization"];
-  if (!token) {
-    return next(
-      new CustomError(403, ["No authentication token given."], {
-        req,
-        res,
-        next,
-      })
+) => {
+  if (
+    req.routeConfig.config?.requireAuth === undefined ||
+    req.routeConfig.config?.requireAuth === true ||
+    (Array.isArray(req.routeConfig.config?.requireAuth) &&
+      req.routeConfig.config?.requireAuth.includes(req.method))
+  ) {
+    const token = req.headers["authorization"]?.slice(
+      7,
+      req.headers["authorization"]?.length
     );
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET as string, (err: any, decoded) => {
-    if (err) {
-      next(
-        new CustomError(500, ["Token authentication failed."], {
+    if (!token) {
+      return next(
+        new CustomError(403, ["No authentication token given."], {
           req,
           res,
           next,
@@ -33,8 +28,19 @@ export function tokenHandler(
       );
     }
 
-    // Si tout est bon, enregistre la demande pour une utilisation dans d'autres routes
-    req.userId = (decoded as JwtPayload).id;
-    next();
-  });
-}
+    jwt.verify(token, process.env.JWT_SECRET as string, (err: any, decoded) => {
+      if (err) {
+        return next(
+          new CustomError(500, ["Token authentication failed."], {
+            req,
+            res,
+            next,
+          })
+        );
+      }
+      // Si tout est bon, enregistre la demande pour une utilisation dans d'autres routes
+      req.user = decoded as JwtPayload;
+      next();
+    });
+  }
+};

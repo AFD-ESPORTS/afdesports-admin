@@ -24,11 +24,11 @@ const activeConnectionsCounter = new Gauge({
   help: "Number of active connections",
 });
 
-export function metricsHandler(
+export const metricsHandler = (
   req: Request,
   res: Response,
   next: NextFunction
-) {
+) => {
   if (req.path !== "/metrics") {
     requestsCounter.inc();
     activeConnectionsCounter.inc();
@@ -45,6 +45,5 @@ export function metricsHandler(
       activeConnectionsCounter.dec();
     });
   }
-
   next();
-}
+};

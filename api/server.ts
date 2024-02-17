@@ -8,7 +8,7 @@ import _ from "lodash";
 
 // Types
 import type { Request, Response, NextFunction, Router } from "express";
-import type { AvailableRoute } from "./types/customTypes";
+import type { AvailableRoute, ExtendedRequest } from "./types/customTypes";
 
 // Middlewares
 import { errorHandler, CustomError } from "./middlewares/errorHandler";
@@ -16,6 +16,7 @@ import { validateSchema } from "./middlewares/validateSchema";
 import { tokenHandler } from "./middlewares/tokenHandler";
 import { formatResult } from "./middlewares/formatResult";
 import { metricsHandler } from "./middlewares/metrics";
+import { userHandler } from "./middlewares/userHandler";
 
 dotenv.config();
 
@@ -84,28 +85,34 @@ for (const folder of routeFolders) {
       const route = require(routePath);
       const schema = require(routeValidatorSchema);
 
-      const router: Router = express.Router();
-      router.use(validateSchema(schema));
-      router.use(route.default);
-      router.use((req, res, next) => {
-        if (
-          config?.requireAuth === undefined ||
-          config?.requireAuth === true ||
-          (Array.isArray(config?.requireAuth) &&
-            config?.requireAuth.includes(req.method))
-        ) {
-          return tokenHandler(req, res, next);
-        }
-        next();
-      });
-      app.use(`/${folder}`, router);
-
       availableRoutes.push({
         routeName: folder,
         routePath: routePath,
         schema: schema,
         config: config,
       });
+
+      const router: Router = express.Router();
+      const middlewares = [
+        (req: ExtendedRequest, res: ExpressResponse, next: NextFunction) => {
+          req.routeConfig = {
+            routeName: folder,
+            routePath: routePath,
+            schema: schema,
+            config: config,
+          };
+          next();
+        },
+        validateSchema(schema),
+        route.default,
+        (req: ExtendedRequest, res: ExpressResponse, next: NextFunction) => {
+          tokenHandler(req, res, next);
+          userHandler(req, res, next);
+          next();
+        },
+      ];
+      router.use(middlewares);
+      app.use(`/${folder}`, router);
     }
   } else {
     console.error(
@@ -118,15 +125,14 @@ for (const folder of routeFolders) {
 // Managing unknown routes
 app.use((req, res, next) => {
   if (_.find(availableRoutes, { routeName: req.url.split("/")[1] })) {
-    next();
-  } else {
-    const error = new CustomError(404, ["No route found for", req.url], {
-      req,
-      res,
-      next,
-    });
-    next(error);
+    return next();
   }
+  const error = new CustomError(404, ["No route found for", req.url], {
+    req,
+    res,
+    next,
+  });
+  next(error);
 });
 
 // Returning the result through formating middleware
