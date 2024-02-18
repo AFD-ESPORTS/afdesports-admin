@@ -44,10 +44,11 @@
     "sinon-express-mock": "^2.2.1",
     "ts-jest": "^29.1.2",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
   },
   "scripts": {
-    "dev": "ts-node-dev ./server.ts --watch **/*.d.ts **/*.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register ./server.ts --watch **/*.d.ts **/*.ts",
     "build": "tsc",
     "test:watch": "TS_NODE_TRANSPILE_ONLY=true yarn mocha -r ts-node/register --bail --watch --watch-extensions ts --watch-files server",
     "text:unit": "mocha --require ts-node/register --require tsconfig-paths/register --recursive --reporter spec --timeout 10000 --exit ./test/unit/**/*.spec.ts",
