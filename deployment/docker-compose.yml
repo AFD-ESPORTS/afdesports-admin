@@ -11,7 +11,11 @@ services:
     networks:
       - internalNetwork
     environment:
-      POSTGRES_PASSWORD: "De cette vérité deux fables feront foi,"
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
 
   adminer:
     image: adminer
@@ -69,10 +73,6 @@ services:
       - ./grafana:/var/lib/grafana
     depends_on:
       - prometheus
-
-# volumes:
-#   grafana-storage: {}
-#   prometheus-data: {}
 
 networks:
   internalNetwork:

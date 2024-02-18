@@ -11,6 +11,7 @@ node_modules
 
 # Deployment
 **grafana.db
+deployment/postgres/*
 
 # Logs
 logs

@@ -151,6 +151,9 @@ app.use(function onError(
 });
 
 app.listen(port, () => {
-  console.log(`L'API est lancée sur le port ${port}`);
+  // console.log(`L'API est lancée sur le port ${port}`);
+  console.log(
+    `\x1b[105m \x1b[100m \x1b[32m API started on port ${port} \x1b[0m`
+  );
   Sentry.setUser(null);
 });

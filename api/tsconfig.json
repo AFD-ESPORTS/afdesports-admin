@@ -11,8 +11,16 @@
     // Set `sourceRoot` to  "/" to strip the build path prefix
     // from generated source code references.
     // This improves issue grouping in Sentry.
-    "sourceRoot": "/"
+    "sourceRoot": "/",
+    "baseUrl": ".",
+    "paths": {
+      "#server/*": ["server/*"],
+      "#db/*": ["db/*"],
+      "#root/*": ["*"],
+      "#test/*": ["test/*"],
+      "#services/*": ["services/*"]
+    }
   },
-  "include": ["./**/*.ts", "./**/*.spec.ts"],
+  "include": ["./**/*.ts", "./**/*.spec.ts", "database/config.js"],
   "exclude": ["node_modules"]
 }
