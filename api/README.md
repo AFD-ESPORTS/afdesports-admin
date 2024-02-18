@@ -87,3 +87,7 @@ To do so, add an array of available environments to `envEnabled`:
 ```
 
 You may change _development_ for _dev_ if you see fit. Just remember that environment name has to be set accordingly in your `.env` file
+
+## Standard request handling
+
+![Incoming Request flux on Draw.io](https://www.dropbox.com/scl/fi/wa2sugv9vhi0hitgrvqmf/Standard-request.drawio.png)

@@ -1,10 +1,28 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 export default defineNuxtConfig({
-  bindModules: ["@pinia/nuxt", "@nuxtjs/axios", "@nuxtjs/auth-next"],
-  compilerOptions: {
-    types: ["@nuxtjs/auth-next"],
-  },
+  modules: ["@pinia/nuxt"],
   devtools: { enabled: true },
-  serverMiddleware: [{ path: "/api", handle: "~/middleware/api.ts" }],
+  css: ["~/assets/css/main.css"],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+  vite: {
+    build: {
+      sourcemap: true, // Source map generation must be turned on
+    },
+    plugins: [
+      // Put the Sentry vite plugin after all other plugins
+      sentryVitePlugin({
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        org: "gilles-cognin",
+        project: "afdesports-admin-api",
+        telemetry: false,
+      }),
+    ],
+  },
   router: {
     // middleware: ["auth"],
   },
