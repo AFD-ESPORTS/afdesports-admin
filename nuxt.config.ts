@@ -46,4 +46,3 @@ export default defineNuxtConfig({
     },
   },
 });
-// import { defineConfig } from "vite";
