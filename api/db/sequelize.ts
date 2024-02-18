@@ -1,6 +1,5 @@
 import { Sequelize } from "sequelize";
 import { config } from "./config/config";
-import { error } from "console";
 
 export const sequelize: Sequelize = new Sequelize(config);
 
@@ -24,6 +23,5 @@ sequelize
       });
   })
   .catch((error) => {
-    // console.error("Unable to connect to the database:", error);
     throw new Error("Unable to connect to the database");
   });
