@@ -124,7 +124,13 @@ for (const folder of routeFolders) {
 
 // Managing unknown routes
 app.use((req, res, next) => {
-  if (_.find(availableRoutes, { routeName: req.url.split("/")[1] })) {
+  if (
+    _.find(availableRoutes, {
+      routeName: new URL(
+        `${req.protocol}://${req.get("host")}${req.originalUrl}`
+      ).pathname.split("/")[1],
+    })
+  ) {
     return next();
   }
   const error = new CustomError(404, ["No route found for", req.url], {
