@@ -16,12 +16,12 @@ sequelize
       .then(() => {
         console.log("# Tables have been synced");
       })
-      .catch((error) => {
+      .catch(() => {
         throw new Error(
           "The API encountered an error while syncing database models"
         );
       });
   })
-  .catch((error) => {
+  .catch(() => {
     throw new Error("Unable to connect to the database");
   });

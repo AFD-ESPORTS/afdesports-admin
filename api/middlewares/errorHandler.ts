@@ -37,7 +37,7 @@ export const errorHandler = (err: any, reqPackage: Package) => {
         code: err.code,
         message:
           err.context?.join(" ") ||
-          "An unknown error occured. Please try again later or contact administrator.",
+          `An unknown ${req.method} error occured. Please try again later or contact administrator.`,
         sentryId: res?.sentry,
       });
     } else {
