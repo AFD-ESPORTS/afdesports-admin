@@ -1,6 +1,6 @@
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 export default defineNuxtConfig({
-  modules: ["@pinia/nuxt"],
+  modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "nuxt-icon"],
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
   postcss: {
