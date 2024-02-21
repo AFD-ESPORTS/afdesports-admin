@@ -1,0 +1,7 @@
+{
+  "code": {
+    "in": ["query"],
+    "isString": true,
+    "errorMessage": "Code must be a string"
+  }
+}
