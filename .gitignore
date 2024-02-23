@@ -27,6 +27,9 @@ logs
 .env.*
 !.env.template
 
+# SSL Certs
+certs/*
+
 # OLD and SAVE files
 *.OLD
 *.SAVE
