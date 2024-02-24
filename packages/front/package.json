@@ -1,13 +1,11 @@
 {
-  "name": "nuxt-app",
+  "name": "front",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "start:front": "nuxt dev --https --ssl-cert certs/localhost.pem --ssl-key certs/localhost-key.pem",
-    "start:api": "ts-node-dev ./api/server.ts --watch api/*.d.ts",
-    "deploy:up": "docker-compose -f packages/deployment/docker-compose.yml -p afdadmin_stack up",
-    "deploy:down": "docker-compose -f packages/deployment/docker-compose.yml -p afdadmin_stack down",
+    "start": "nuxt dev --https --ssl-cert ../../certs/localhost.pem --ssl-key ../../certs/localhost-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
