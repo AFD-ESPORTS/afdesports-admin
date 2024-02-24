@@ -7,11 +7,11 @@
 dist
 
 # Node dependencies
-node_modules
+**/node_modules
 
 # Deployment
 **grafana.db
-deployment/postgres/*
+packages/deployment/postgres/*
 
 # Logs
 logs
@@ -21,11 +21,16 @@ logs
 .DS_Store
 .fleet
 .idea
+.eslintignore
+.eslintrc.json
 
 # Local env files
 .env
 .env.*
 !.env.template
+
+# SSL Certs
+certs/*
 
 # OLD and SAVE files
 *.OLD
