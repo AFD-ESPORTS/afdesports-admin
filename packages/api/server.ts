@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 import _ from "lodash";
+import https from "https";
 
 // Types
 import type { Request, Response, NextFunction, Router } from "express";
@@ -26,6 +27,20 @@ interface ExpressResponse extends Response {
 
 const app = express();
 const port = process.env.API_PORT;
+const keyPath = process.env.SSL_KEY_PATH || "";
+const certPath = process.env.SSL_CERT_PATH || "";
+
+if (!fs.existsSync(keyPath) || !fs.existsSync(certPath)) {
+  console.error(
+    "SSL Certificates files not found. API's defined as not secure and, therefor, won't start."
+  );
+  process.exit(1);
+}
+
+const httpsOptions = {
+  key: fs.readFileSync(path.resolve(keyPath)),
+  cert: fs.readFileSync(path.resolve(certPath)),
+};
 
 app.use(express.json());
 
@@ -156,7 +171,9 @@ app.use(function onError(
   errorHandler(err, { req, res, next });
 });
 
-app.listen(port, () => {
+const server = https.createServer(httpsOptions, app);
+
+server.listen(port, () => {
   console.log(
     `\x1b[105m \x1b[100m \x1b[32m API started on port ${port} \x1b[0m`
   );
