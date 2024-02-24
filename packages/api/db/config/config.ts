@@ -1,5 +1,5 @@
 import pg from "pg";
-import type { Options } from "sequelize/types";
+import type { Options } from "sequelize";
 import dotenv from "dotenv";
 dotenv.config();
 

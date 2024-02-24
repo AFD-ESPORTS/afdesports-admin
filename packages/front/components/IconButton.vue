@@ -5,7 +5,7 @@
     @click="submit"
   >
     <slot name="icon" class="mr-2 pr-2">
-      <Loader v-if="isLoading" />
+      <BubbleLoader v-if="isLoading" />
       <Icon :name="icon" v-else />
     </slot>
     <slot name="text" v-if="text">{{ text }}</slot>
@@ -13,6 +13,7 @@
 </template>
 
 <script setup lang="ts">
+import { toRefs } from "vue";
 const props = defineProps({
   icon: {
     type: String,

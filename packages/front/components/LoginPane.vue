@@ -25,9 +25,15 @@
 <script setup lang="ts">
 import { useDiscordStore } from "@/stores/discord";
 
-const discordStore = useDiscordStore();
+const props = defineProps({
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-const isLoading = ref(false);
+const { isLoading } = props;
+const discordStore = useDiscordStore();
 
 const loginWithDiscord = () => {
   discordStore.redirectToDiscord();

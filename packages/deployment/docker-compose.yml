@@ -58,7 +58,7 @@ services:
     image: grafana/grafana
     restart: unless-stopped
     container_name: "grafana"
-    user: ${UID}
+    user: "grafana"
     ports:
       - 3234:3000
     networks:
