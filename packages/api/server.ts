@@ -26,6 +26,7 @@ interface ExpressResponse extends Response {
 }
 
 const app = express();
+app.use(cors());
 const port = process.env.API_PORT;
 const keyPath = process.env.SSL_KEY_PATH || "";
 const certPath = process.env.SSL_CERT_PATH || "";
@@ -109,7 +110,6 @@ for (const folder of routeFolders) {
 
       const router: Router = express.Router();
       const middlewares = [
-        cors(),
         express.json(),
         (req: ExtendedRequest, res: ExpressResponse, next: NextFunction) => {
           req.routeConfig = {
