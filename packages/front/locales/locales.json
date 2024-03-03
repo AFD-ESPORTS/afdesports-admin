@@ -1,0 +1,8 @@
+{
+  "errors": {
+    "Internal Server Error": {
+      "en": "An internal server error occurred. Please try again later.",
+      "fr": "Une erreur interne du serveur est survenue. Veuillez réessayer plus tard."
+    }
+  }
+}
