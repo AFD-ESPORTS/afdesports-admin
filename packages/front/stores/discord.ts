@@ -1,36 +1,40 @@
-// ~/store/discord.ts
 import { defineStore } from "pinia";
+import { useUserStore } from "@/stores/user";
+import { fetchUserDatasFromDiscord } from "~/api/user.api";
 
 import type { Ref } from "vue";
+import type { UserDatas } from "@/types/User.d";
+import type { navigateFunc } from "~/types/Functions";
+
+const baseUrl: string | undefined = process.env.BASE_URL;
 
 export const useDiscordStore = defineStore("discord", () => {
-  // const clientId = ref(process.env.VUE_APP_DISCORD_CLIENT_ID as string | null);
+  const userStore = useUserStore();
+  const userAccessToken: Ref<string | undefined> = ref();
+  const userDatas: Ref<object> = ref({});
+  const isAuth: Ref<boolean> = ref(false);
 
-  const redirectUri: Ref<string | undefined> = ref(
-    process.env.VUE_APP_DISCORD_URI
-  );
+  const fetchUserDatas = async (
+    userToken: string
+  ): Promise<UserDatas | boolean> => {
+    userAccessToken.value = userToken.trim();
 
-  const redirectToDiscord = () => {
-    console.log("redirectToDiscord: ", redirectUri.value);
-
-    return navigateTo(redirectUri.value, { open: { target: "_blank" } });
-  };
-
-  const fetchUserDatas = async (userToken: string): Promise<boolean> => {
-    if (userToken) {
-      console.log("fetchUserData: ", userToken);
+    if (userAccessToken.value && !userStore.isLoggedIn) {
+      const userDatas: UserDatas = await fetchUserDatasFromDiscord(
+        userAccessToken.value
+      );
+      return userDatas;
     }
     return false;
   };
 
-  return { fetchUserDatas, redirectToDiscord };
-});
+  const logout: navigateFunc = () => {
+    userAccessToken.value = undefined;
+    userDatas.value = {};
+    isAuth.value = false;
 
-/*
-async function fetchQuestion(questionId) {
-        if (!hash.value[questionId]) {
-            hash.value[questionId] = await fetch(questionId);
-        }
-        return hash.value[questionId];
-    }
-*/
+    return navigateTo(baseUrl);
+  };
+
+  return { fetchUserDatas, logout };
+});
