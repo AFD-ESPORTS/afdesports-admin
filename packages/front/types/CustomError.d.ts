@@ -1,6 +1,7 @@
 export type CustomError = {
   code: number;
-  message: string;
-  stack?: string;
   name?: string;
+  title?: string;
+  message: string;
+  stack?: string | object;
 };
