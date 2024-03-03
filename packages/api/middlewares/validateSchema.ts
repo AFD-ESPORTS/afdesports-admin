@@ -27,6 +27,6 @@ const handleValidationErrors = (
 
 export const validateSchema = (
   schema: Schema
-): (any | ValidationChain | typeof handleValidationErrors)[] => {
+): (ValidationChain | typeof handleValidationErrors)[] => {
   return [...checkSchema(schema), handleValidationErrors];
 };
