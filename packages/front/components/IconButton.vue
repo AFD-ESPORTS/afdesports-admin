@@ -29,15 +29,12 @@ const props = defineProps({
   },
   isLoading: {
     type: Boolean,
-    default: false,
   },
 });
 
 const { icon, text, isLoading } = toRefs(props);
 
 const submit = () => {
-  //   emit("click");
-  console.log("Click!");
   isLoading.value = true;
 };
 </script>
