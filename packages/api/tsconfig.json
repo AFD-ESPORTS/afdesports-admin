@@ -18,7 +18,8 @@
       "#db/*": ["db/*"],
       "#root/*": ["*"],
       "#test/*": ["test/*"],
-      "#services/*": ["services/*"]
+      "#services/*": ["services/*"],
+      "#types/*": ["types/*"]
     }
   },
   "include": ["./**/*.ts", "./**/*.spec.ts", "database/config.js"],
