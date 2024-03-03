@@ -1,9 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import * as Sentry from "@sentry/node";
 
-type ErrorContext = {
-  [key: string]: any;
-} | null;
+type ErrorContext =
+  | {
+      [key: string]: object | string | number;
+    }
+  | string[]
+  | null;
 
 interface Package {
   req: Request;
@@ -21,23 +24,33 @@ export class CustomError extends Error {
   public reqPackage: Package;
 
   constructor(code: number, context: ErrorContext, reqPackage: Package) {
-    super(context?.join(" ") || "An unknown error occured.");
+    const message: string =
+      typeof context === "string"
+        ? context
+        : context
+        ? Object.values(context).join(" ")
+        : "An unknown error occured.";
+    super(message);
     this.code = code;
     this.context = context;
     this.reqPackage = reqPackage;
   }
 }
 
-export const errorHandler = (err: any, reqPackage: Package) => {
+export const errorHandler = (err: CustomError | Error, reqPackage: Package) => {
   const { req, res, next } = reqPackage;
   if (err instanceof CustomError) {
+    const message: string =
+      typeof err.context === "string"
+        ? err.context
+        : err.context
+        ? Object.values(err.context).join(" ")
+        : `An unknown ${req.method} error occured. Please try again later or contact administrator.`;
     if (err.code) {
-      Sentry.captureException(new Error(err?.context?.join(" ")));
+      Sentry.captureException(new Error(message));
       res.status(err.code).json({
         code: err.code,
-        message:
-          err.context?.join(" ") ||
-          `An unknown ${req.method} error occured. Please try again later or contact administrator.`,
+        message: message,
         sentryId: res?.sentry,
       });
     } else {

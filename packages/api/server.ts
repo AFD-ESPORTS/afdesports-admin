@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import _ from "lodash";
 import https from "https";
+import cors from "cors";
 
 // Types
 import type { Request, Response, NextFunction, Router } from "express";
@@ -17,7 +18,6 @@ import { validateSchema } from "./middlewares/validateSchema";
 import { tokenHandler } from "./middlewares/tokenHandler";
 import { formatResult } from "./middlewares/formatResult";
 import { metricsHandler } from "./middlewares/metrics";
-import { userHandler } from "./middlewares/userHandler";
 
 dotenv.config();
 
@@ -26,6 +26,7 @@ interface ExpressResponse extends Response {
 }
 
 const app = express();
+app.use(cors());
 const port = process.env.API_PORT;
 const keyPath = process.env.SSL_KEY_PATH || "";
 const certPath = process.env.SSL_CERT_PATH || "";
@@ -41,8 +42,6 @@ const httpsOptions = {
   key: fs.readFileSync(path.resolve(keyPath)),
   cert: fs.readFileSync(path.resolve(certPath)),
 };
-
-app.use(express.json());
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -93,12 +92,14 @@ for (const folder of routeFolders) {
     fs.existsSync(routeValidatorSchema) &&
     fs.existsSync(routeConfig)
   ) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const config = require(routeConfig);
     if (config?.envEnabled?.includes(process.env.NODE_ENV)) {
       console.log("> Route enabled for env:", process.env.NODE_ENV, folder);
-
+      /* eslint-disable @typescript-eslint/no-var-requires */
       const route = require(routePath);
       const schema = require(routeValidatorSchema);
+      /* eslint-enable @typescript-eslint/no-var-requires */
 
       availableRoutes.push({
         routeName: folder,
@@ -109,6 +110,7 @@ for (const folder of routeFolders) {
 
       const router: Router = express.Router();
       const middlewares = [
+        express.json(),
         (req: ExtendedRequest, res: ExpressResponse, next: NextFunction) => {
           req.routeConfig = {
             routeName: folder,
@@ -122,7 +124,6 @@ for (const folder of routeFolders) {
         route.default,
         (req: ExtendedRequest, res: ExpressResponse, next: NextFunction) => {
           tokenHandler(req, res, next);
-          userHandler(req, res, next);
           next();
         },
       ];
@@ -161,11 +162,11 @@ app.use(formatResult);
 
 // Error handler joining error feedback from API and Sentry
 app.use(function onError(
-  err: any,
+  err: Error,
   req: Request,
   res: ExpressResponse,
   next: NextFunction
-) {
+): void {
   res.statusCode = 500; // default status code
   Sentry.Handlers.errorHandler()(err, req, res, next);
   errorHandler(err, { req, res, next });

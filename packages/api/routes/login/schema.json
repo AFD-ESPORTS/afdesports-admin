@@ -1,7 +1,7 @@
 {
-  "code": {
-    "in": ["query"],
+  "userToken": {
+    "in": ["body"],
     "isString": true,
-    "errorMessage": "Code must be a string"
+    "errorMessage": "userToken must be a string"
   }
 }

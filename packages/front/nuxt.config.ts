@@ -1,6 +1,13 @@
 import { sentryVitePlugin } from "@sentry/vite-plugin";
+import { defineConfig } from "vite";
+import { fileURLToPath, URL } from "node:url";
+import { version } from "./package.json";
+
 export default defineNuxtConfig({
   modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "nuxt-icon"],
+  pinia: {
+    storesDirs: ["./stores/**"],
+  },
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
   postcss: {
@@ -12,6 +19,14 @@ export default defineNuxtConfig({
   vite: {
     build: {
       sourcemap: true, // Source map generation must be turned on
+    },
+    optimizeDeps: {
+      include: ["@turf/turf"],
+    },
+    resolve: {
+      alias: {
+        "@": fileURLToPath(new URL("./", import.meta.url)),
+      },
     },
     plugins: [
       // Put the Sentry vite plugin after all other plugins
@@ -30,8 +45,8 @@ export default defineNuxtConfig({
     auth: {
       strategies: {
         discord: {
-          clientId: process.env.VUE_APP_DISCORD_CLIENT_ID,
-          clientSecret: process.env.VUE_APP_DISCORD_CLIENT_SECRET,
+          clientId: process.env.DISCORD_CLIENT_ID,
+          clientSecret: process.env.DISCORD_CLIENT_SECRET,
           codeChallengeMethod: "",
           responseType: "code",
           grantType: "authorization_code",

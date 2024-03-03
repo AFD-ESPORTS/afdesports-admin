@@ -4,7 +4,7 @@
   >
     <img
       src="/img/Discord_AFDESPORTS_logo.png"
-      alt="logo"
+      alt="logo AFD.ESPORTS"
       class="flex items-center w-40 h-40 mx-auto mb-16 drop-shadow-xl"
     />
     <div class="text-black text-center object-none object-center">
@@ -13,7 +13,7 @@
         <IconButton
           icon="discord"
           text="Se connecter avec Discord"
-          class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded hover:shadow-xl"
+          :class="classes"
           @click="loginWithDiscord"
           :isLoading="isLoading"
         />
@@ -23,20 +23,65 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref, computed } from "vue";
+import { navigateTo } from "#app";
+import { useRoute } from "vue-router";
 import { useDiscordStore } from "@/stores/discord";
+import { useUserStore } from "@/stores/user";
 
-const props = defineProps({
-  isLoading: {
-    type: Boolean,
-    default: false,
-  },
+import type { Ref, ComputedRef } from "vue";
+import type { navigateFunc, getUserDatasFunc } from "@/types/Functions.d";
+import type { UserDatas } from "@/types/User.d";
+
+const route = useRoute();
+const discordStore = useDiscordStore();
+const userStore = useUserStore();
+const isLoading = ref(false);
+const { VITE_DISCORD_URI } = import.meta.env;
+
+const userDatas: Ref<UserDatas | boolean> = ref(false);
+
+const classes: ComputedRef<string> = computed(() => {
+  let baseStyle: string =
+    " text-white font-bold py-2 px-4 rounded hover:shadow-xl";
+  return isLoading.value
+    ? baseStyle + " cursor-not-allowed bg-indigo-300"
+    : baseStyle + " bg-indigo-500 hover:bg-indigo-700";
 });
 
-const { isLoading } = props;
-const discordStore = useDiscordStore();
-
-const loginWithDiscord = () => {
-  discordStore.redirectToDiscord();
+const loginWithDiscord: navigateFunc = () => {
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 10000);
+  isLoading.value = true;
+  return navigateTo(VITE_DISCORD_URI, { external: true });
 };
+
+const accessGranted: navigateFunc = () => {
+  navigateTo("/admin");
+};
+
+const getUserDatas: getUserDatasFunc = async (code: string) => {
+  isLoading.value = true;
+  try {
+    userDatas.value = await discordStore.fetchUserDatas(code);
+    console.log("isAuth: ", userDatas.value);
+    history.replaceState({}, "", location.pathname);
+    if (userDatas.value && typeof userDatas.value !== "boolean") {
+      console.log("Access granted to ", userDatas.value.datas.username);
+      userStore.setUserDatas(userDatas.value);
+      accessGranted();
+    }
+  } catch (e: { code?: number; message?: string } | unknown | null) {
+    navigateTo("/login");
+  }
+};
+
+onMounted(() => {
+  const code: string = route.query.code as string;
+  if (code && !userStore.isLoggedIn) {
+    isLoading.value = true;
+    getUserDatas(code);
+  }
+});
 </script>
-```
