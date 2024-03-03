@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
 
-export const formatResult = (req: Request, res: Response): void | Object => {
+export const formatResult = (req: Request, res: Response): void | object => {
   res.json(res.locals.data);
 };
