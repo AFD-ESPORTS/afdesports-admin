@@ -8,13 +8,18 @@ export const useUserStore = defineStore("user", () => {
   const isAdmin: Ref<boolean> = ref(false);
   const isLoggedIn: Ref<boolean> = ref(false);
 
-  const setUserDatas = (datas: UserDatas): void => {
-    userDatas.value = datas.datas;
-    userServerDatas.value = datas.guilds;
-    isAdmin.value = datas.isAdmin;
-    isLoggedIn.value = true;
-    localStorage.setItem("userData", JSON.stringify(userDatas.value));
-    // Create user's JWT
+  const setUserDatas = async (datas: UserDatas): Promise<boolean> => {
+    try {
+      userDatas.value = datas.datas;
+      userServerDatas.value = datas.guilds;
+      isAdmin.value = datas.isAdmin;
+      isLoggedIn.value = true;
+      localStorage.setItem("userData", JSON.stringify(userDatas.value));
+      // Create user's JWT
+    } catch (e: { code?: number; message?: string } | null) {
+      throw new Error(e.message);
+    }
+    return true;
   };
 
   return { userDatas, isAdmin, isLoggedIn, setUserDatas };
