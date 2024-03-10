@@ -7,12 +7,13 @@
       alt="logo AFD.ESPORTS"
       class="flex items-center w-40 h-40 mx-auto mb-16 drop-shadow-xl"
     />
-    <div class="text-black text-center object-none object-center">
+    <div class="text-black text-center object-none object-center min-w-72">
       <h1 class="text-2xl font-bold text-white mb-16">Login</h1>
       <div class="flex justify-center">
         <IconButton
           icon="discord"
           text="Se connecter avec Discord"
+          class="leading-6"
           :class="classes"
           @click="loginWithDiscord"
           :isLoading="isLoading"
@@ -28,6 +29,7 @@ import { navigateTo } from "#app";
 import { useRoute } from "vue-router";
 import { useDiscordStore } from "@/stores/discord";
 import { useUserStore } from "@/stores/user";
+import { usePopUpsStore } from "@/stores/popups";
 
 import type { Ref, ComputedRef } from "vue";
 import type { navigateFunc, getUserDatasFunc } from "@/types/Functions.d";
@@ -36,6 +38,7 @@ import type { UserDatas } from "@/types/User.d";
 const route = useRoute();
 const discordStore = useDiscordStore();
 const userStore = useUserStore();
+const popUpsStore = usePopUpsStore();
 const isLoading = ref(false);
 const { VITE_DISCORD_URI } = import.meta.env;
 
@@ -52,25 +55,31 @@ const classes: ComputedRef<string> = computed(() => {
 const loginWithDiscord: navigateFunc = () => {
   setTimeout(() => {
     isLoading.value = false;
+    popUpsStore.setPopUp(
+      new Error("La tentative de connexion a échouée!"),
+      "error"
+    );
   }, 10000);
   isLoading.value = true;
   return navigateTo(VITE_DISCORD_URI, { external: true });
-};
-
-const accessGranted: navigateFunc = () => {
-  navigateTo("/admin");
 };
 
 const getUserDatas: getUserDatasFunc = async (code: string) => {
   isLoading.value = true;
   try {
     userDatas.value = await discordStore.fetchUserDatas(code);
-    console.log("isAuth: ", userDatas.value);
     history.replaceState({}, "", location.pathname);
     if (userDatas.value && typeof userDatas.value !== "boolean") {
-      console.log("Access granted to ", userDatas.value.datas.username);
-      userStore.setUserDatas(userDatas.value);
-      accessGranted();
+      try {
+        await userStore.setUserDatas(userDatas.value);
+      } catch (e: { code?: number; message?: string } | null) {
+        popUpsStore.setPopUp(e, "error");
+      } finally {
+        isLoading.value = false;
+        if (userStore.isAdmin) {
+          navigateTo("/admin");
+        }
+      }
     }
   } catch (e: { code?: number; message?: string } | unknown | null) {
     navigateTo("/login");
