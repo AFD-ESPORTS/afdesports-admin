@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ErrorPopUp />
+    <PopUp />
     <NuxtPage />
   </div>
 </template>

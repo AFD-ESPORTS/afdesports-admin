@@ -10,11 +10,11 @@
       "url": "https://grafana.com"
     },
     "build": {
-      "time": 1693812321998,
+      "time": 1709128458739,
       "repo": "https://github.com/grafana/clock-panel",
       "branch": "main",
-      "hash": "33b630b2bf8dd1374587c010533ee3666a7cde5c",
-      "build": 126
+      "hash": "330643f99c63372cd86553c2bf5d4dac72d336ac",
+      "build": 163
     },
     "description": "Clock panel for grafana",
     "keywords": [
@@ -45,8 +45,8 @@
         "path": "img/screenshot-clock-options.png"
       }
     ],
-    "updated": "2023-09-04",
-    "version": "2.1.3"
+    "updated": "2024-02-28",
+    "version": "2.1.5"
   },
   "name": "Clock",
   "skipDataQuery": true,

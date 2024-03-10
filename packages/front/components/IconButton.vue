@@ -1,6 +1,7 @@
 <template>
   <button
-    class="flex flex-wrap gap-2 items-center justify-center {{ classes }} "
+    class="flex flex-wrap gap-2 items-center justify-center transition-all duration-500 ease-in-out"
+    :class="classes"
     :disabled="isLoading"
     @click="submit"
   >

@@ -8,8 +8,8 @@ Hash: SHA512
   "signedByOrg": "grafana",
   "signedByOrgName": "Grafana Labs",
   "plugin": "grafana-clock-panel",
-  "version": "2.1.3",
-  "time": 1693812322724,
+  "version": "2.1.5",
+  "time": 1709128459251,
   "keyId": "7e4d0c6a708866e7",
   "files": {
     "CHANGELOG.md": "d9183b9e669b1ee94da93626a0f99d874b07c71adbe5b8a8213815f9e7c76f7f",
@@ -20,20 +20,20 @@ Hash: SHA512
     "img/screenshot-clock-options.png": "55f428cc45f65e53a118db2b969353cd01e0d2f879848b1df503750ed27007cf",
     "img/screenshot-clocks.png": "4dcf3c3d303e63239689df853b80ef79557eaf5496679400f362e68f57f60577",
     "img/screenshot-showcase.png": "43c6520f1efa3343d839b9462a22ce962d2b041f2d5d9c743a8603caa8392a71",
-    "module.js": "5d12eb5803207471c0789d96630f458080d9e489cdc3bbe6a97746b26ae1308c",
+    "module.js": "c93f8f0e0273d751d29f88a7a6b84c6f9c582eec253c40ecaa38ec0d9e9f8aef",
     "module.js.LICENSE.txt": "71f2699fd278800e3b685a3232025864b829081d5c892e6a3cb66b3e3fdf0cbf",
-    "module.js.map": "bde8dbe97e09f9b27d097d56c3044d0ba3777fa00d21cc74e3f1e4e6ef015fa8",
-    "plugin.json": "59d2e512cb90c96d7b13d24853dc6a71b8ea459ccce564ebff983983905c417e"
+    "module.js.map": "30a91c18fe9640e45146608308a0d2b761fb19dccc811684f6a2ecdbce900360",
+    "plugin.json": "49a8f6f038072599012c8c530dcb038bae4006ec185a3576f43f99a3f7b7ee31"
   }
 }
 -----BEGIN PGP SIGNATURE-----
 Version: OpenPGP.js v4.10.10
 Comment: https://openpgpjs.org
 
-wrgEARMKAAYFAmT1hmMAIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
-cIhm5yUTAgiBc2PRuVgzMyUgajYaG8hqY+mA9z2aLk1u01UcKV74UBz+8SG/
-yGYVAu1m+W/+GQqVOnA5898t72R2uggNcBlodgIJAZ4uJMdRkU5vV025SXQY
-Eh8BD3n+Cdcohd6WW2dtCRQjqv/VuzmsHTXQcXFwr1tAwJcow28+6WXgx7sa
-FSW5l4ge
-=qxzp
+wrcEARMKAAYFAmXfOwsAIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
+cIhm56JZAgj9gRkNctVxN6269Cr0VgjWAbNstCFTN0Occwlom1EGr18X8NFY
+m6dwek9jCkpbISl0Ij5Y0+3vnlCucWdN+zovwAIHegtkCuww6ir+MWRCw32w
+ydNh9mJGuG8jcgvRDIONGDxYsJcB/KvXxhNoX9aNIWV4I0WRPQEgCDd8yXYX
+7wdhm8E=
+=v1+5
 -----END PGP SIGNATURE-----
