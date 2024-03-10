@@ -4,4 +4,5 @@ export type CustomError = {
   title?: string;
   message: string;
   stack?: string | object;
+  timestamp?: number;
 };
