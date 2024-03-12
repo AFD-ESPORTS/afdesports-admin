@@ -84,6 +84,7 @@ export type ExtendedUserDatas = {
   datas: null | UserDatas | TokenError | Error;
   guilds: null | UserGuilds | TokenError | Error;
   isAdmin: boolean;
+  token?: string;
 };
 
 export interface TokenError extends AxiosResponse {

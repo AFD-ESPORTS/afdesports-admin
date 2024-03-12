@@ -1,5 +1,8 @@
-import { NextFunction } from "express";
+import { ExtendedRequest } from "#types/customTypes";
 
-export default async function generateToken(req: Request): Promise<Object> {
-  return { message: "LET'S GOOOOO." };
-}
+export const testToken = async (req: ExtendedRequest): Promise<object> => {
+  console.log("Token route:", req.body);
+  console.log("User:", req.user);
+
+  return { message: req.user };
+};

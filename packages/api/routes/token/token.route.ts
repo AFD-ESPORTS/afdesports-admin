@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import generateToken from "./token.ctrl";
+import { testToken } from "./token.ctrl";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
-  res.locals.data = await generateToken(req.body);
+  console.log("Token route:", req.body.header);
+
+  res.locals.data = await testToken(req.body);
   next();
 };
