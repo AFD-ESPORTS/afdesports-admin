@@ -17,5 +17,6 @@ export const Users = sequelize.define("Users", {
   },
   discord_username: { type: DataTypes.STRING, allowNull: true },
   lol_account: { type: DataTypes.STRING, allowNull: true },
+  token: { type: DataTypes.STRING, allowNull: true },
   token_issue_date: { type: DataTypes.DATE, allowNull: true },
 });
