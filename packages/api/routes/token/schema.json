@@ -4,11 +4,12 @@
     "isInt": true,
     "errorMessage": "userId must be an integer"
   },
-  "type": {
+  "tokenType": {
+    "optional": { "options": { "nullable": true, "checkFalsy": true } },
     "in": ["body"],
     "isString": true,
     "isIn": {
-      "options": ["magic-token", "user-token", "api-token"],
+      "options": [["magic-token", "user-token", "api-token"]],
       "errorMessage": "This type is not supported"
     },
     "errorMessage": "Type must be a string"
