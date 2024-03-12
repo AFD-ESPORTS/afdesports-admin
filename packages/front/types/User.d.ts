@@ -52,5 +52,6 @@ export interface UserDatas {
     bio: string;
     banner: null | string;
   };
+  token: string;
   isAdmin: boolean;
 }
