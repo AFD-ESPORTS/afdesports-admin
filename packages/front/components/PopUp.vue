@@ -41,7 +41,14 @@
           </div>
           <div class="relative pl-10">
             <h4 class="object-top text-sm font-bold">
-              {{ popUp.popup.title || "Une erreur est survenue" }}
+              {{
+                popUp.popup.title ||
+                (popUp.popup.type === "error"
+                  ? "Une erreur est survenue"
+                  : popUp.popup.type === "success"
+                  ? "Succès"
+                  : "Information")
+              }}
             </h4>
             <p
               class="object-bottom text-sm line-clamp-2 mt-1"
@@ -87,7 +94,7 @@ const getColorClass = (type: string) => {
     case "error":
       return {
         tile: "bg-rose-200/75 hover:bg-rose-300/75 border-rose-300 hover:border-rose-400",
-        icon: "ph:x",
+        icon: "raphael:exclamation",
         iconColor: "text-red-700/75",
         iconColorHover: "text-red-200/75",
         iconBackground: "bg-rose-300 hover:bg-rose-400 ",
