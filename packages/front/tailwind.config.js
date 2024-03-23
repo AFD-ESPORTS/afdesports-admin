@@ -11,7 +11,11 @@ export default {
     "./error.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "light-blue": "#f2f6ff",
+      },
+    },
   },
   plugins: [
     plugin(function ({ matchUtilities, theme }) {
