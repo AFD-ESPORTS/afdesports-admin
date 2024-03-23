@@ -1,0 +1,77 @@
+<template>
+  <div class="fixed top-0 left-0 h-14 w-full bg-white">
+    <div class="flex justify-between items-center h-full w-full">
+      <div class="flex h-full items-center gap-4">
+        <div
+          class="h-full w-full bg-gradient-to-tr from-blue-400 to-fuchsia-500"
+        >
+          <svg
+            class="transition ease-in-out delay-150 duration-500 w-14 h-full p-1 border-gray-100 border-r-2 cursor-pointer fill-gray-300 bg-white hover:bg-transparent hover:fill-white"
+            width="1556.000000pt"
+            height="1393.000000pt"
+            viewBox="0 0 1556.000000 1393.000000"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <g
+              transform="translate(0.000000,1550.000000) scale(0.100000,-0.100000)"
+              stroke="none"
+            >
+              <path
+                xmlns="http://www.w3.org/2000/svg"
+                d="M13868 12605 c-334 -221 -492 -332 -500 -350 -9 -19 -8 -625 1
+          -2546 11 -2119 11 -2523 0 -2534 -35 -31 -1149 -695 -1167 -695 -12 0
+          -26 9 -32 19 -7 14 -9 205 -8 578 l3 557 443 276 c243 151 447 282 452
+          290 6 9 10 309 10 762 0 747 0 747 -21 758 -11 7 -28 9 -37 5 -9 -3 -380
+          -243 -826 -532 -641 -417 -812 -524 -825 -516 -14 9 -16 61 -19 458 -1
+          311 -6 452 -13 462 -6 7 -20 13 -31 13 -11 0 -456 -293 -991 -651 -759
+          -510 -974 -649 -986 -642 -14 9 -16 82 -19 633 -1 454 -5 627 -14 637 -6
+          8 -23 13 -38 11 -14 -2 -1846 -1171 -4070 -2598 -3580 -2297 -4044 -2598
+          -4057 -2628 -18 -43 -3 -95 35 -120 24 -16 102 -17 1097 -17 l1070 0 41
+          22 c23 12 682 437 1465 944 783 508 1433 923 1444 923 11 0 349 -210 751
+          -467 403 -257 744 -471 758 -477 32 -12 71 1 85 29 8 13 11 243 11 713 0
+          598 -2 696 -15 715 -8 11 -100 74 -205 138 -104 65 -190 121 -190 124 0
+          3 161 113 358 243 l357 238 5 -1233 c3 -795 9 -1238 15 -1248 14 -22
+          1005 -682 1033 -687 51 -10 52 -2 52 307 l0 286 753 490 752 491 0 749 0
+          750 -26 9 c-23 8 -99 -37 -752 -443 -399 -248 -728 -451 -731 -451 -3 0
+          -6 76 -6 169 l0 169 910 595 910 595 0 -1844 c0 -1253 3 -1852 10 -1865
+          6 -11 21 -19 36 -19 16 0 579 362 1617 1040 876 572 1604 1051 1618 1065
+          15 13 34 40 43 59 15 31 16 298 16 3284 0 2942 -1 3252 -16 3266 -8 9
+          -27 16 -42 15 -18 0 -190 -109 -514 -324z"
+              />
+            </g>
+          </svg>
+        </div>
+        <button
+          class="border-2 rounded-xl p-1 border-gray-100 hover:border-blue-500 transition ease-in-out delay-150 duration-500"
+        >
+          <Icon name="mdi:search" class="text-gray-300" />
+        </button>
+      </div>
+      <div class="flex h-full items-center justify-items-center gap-2 divide-x">
+        <div class="flex h-full items-center pl-2">
+          <Icon
+            name="discord"
+            class="text-gray-300 cursor-pointer hover:text-blue-500 transition ease-in-out delay-150 duration-500"
+          />
+        </div>
+        <div class="flex h-full items-center pl-2">
+          <Icon
+            name="mdi:bell"
+            class="text-gray-300 cursor-pointer hover:text-blue-500 transition ease-in-out delay-150 duration-500"
+          />
+        </div>
+        <div class="flex h-full items-center pl-2 pr-2">
+          <button
+            class="border-2 rounded-xl p-1 border-gray-100 hover:bg-gray-50 hover:border-blue-500 transition ease-in-out delay-150 duration-500"
+          >
+            <Icon name="mdi:account" class="text-gray-300" />
+          </button>
+          <Icon
+            name="mdi:chevron-down"
+            class="text-gray-300 cursor-pointer hover:text-blue-500 transition ease-in-out delay-150 duration-500"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
