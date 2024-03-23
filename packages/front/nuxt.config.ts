@@ -1,9 +1,8 @@
 import { sentryVitePlugin } from "@sentry/vite-plugin";
-import { defineConfig } from "vite";
 import { fileURLToPath, URL } from "node:url";
-import { version } from "./package.json";
 
 export default defineNuxtConfig({
+  components: true,
   modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "nuxt-icon"],
   pinia: {
     storesDirs: ["./stores/**"],
